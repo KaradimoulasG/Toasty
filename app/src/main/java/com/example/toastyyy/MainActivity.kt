@@ -12,7 +12,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -68,8 +67,8 @@ fun AnimatedCircleToBoxPreview() {
 
 @Composable
 fun SlideThenExpandThenShrinkThenSlide(
-    messageType: MessageType = MessageType.DEFAULT,
-    message: String = "Something",
+    messageType: MessageType = MessageType.SUCCESS,
+    message: String = "Firfiriki s agapw",
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
@@ -109,7 +108,7 @@ fun SlideThenExpandThenShrinkThenSlide(
             showMessage = true
 
             // Delay for 1 second before reverting to circle
-            delay(1000)
+            delay(2500)
             isTransitionStarted = false
             showMessage = false
 
@@ -130,8 +129,7 @@ fun SlideThenExpandThenShrinkThenSlide(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                .fillMaxWidth(),
             contentAlignment = Alignment.Center, // Center content within this Box
         ) {
             Box(
