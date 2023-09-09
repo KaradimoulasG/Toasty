@@ -11,6 +11,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -34,6 +35,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,7 +54,7 @@ class MainActivity : ComponentActivity() {
                         .background(Color.Black),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    SlideThenExpandThenShrinkThenSlide(MessageType.ERROR)
+                    CircleToRectangleAnimationFromBottom(MessageType.ERROR)
                 }
             }
         }
@@ -62,11 +64,11 @@ class MainActivity : ComponentActivity() {
 @Preview
 @Composable
 fun AnimatedCircleToBoxPreview() {
-    SlideThenExpandThenShrinkThenSlide(MessageType.SUCCESS)
+    CircleToRectangleAnimationFromBottom(MessageType.SUCCESS)
 }
 
 @Composable
-fun SlideThenExpandThenShrinkThenSlide(
+fun TopToast(
     messageType: MessageType = MessageType.SUCCESS,
     message: String = "Firfiriki s agapw",
 ) {
@@ -81,7 +83,7 @@ fun SlideThenExpandThenShrinkThenSlide(
 
     val width by animateDpAsState(
         targetValue = if (isTransitionStarted) screenWidthInDp else 30.dp,
-        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+        animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing),
         label = "",
     )
 
@@ -108,7 +110,7 @@ fun SlideThenExpandThenShrinkThenSlide(
             showMessage = true
 
             // Delay for 1 second before reverting to circle
-            delay(2500)
+            delay(1500)
             isTransitionStarted = false
             showMessage = false
 
@@ -176,5 +178,94 @@ fun getColorForMessageType(messageType: MessageType): Color {
             }
         }
         MessageType.DEFAULT -> MaterialTheme.colorScheme.primary
+    }
+}
+
+@Composable
+fun CircleToRectangleAnimationFromBottom(
+    messageType: MessageType = MessageType.DEFAULT,
+    message: String = "",
+) {
+    var isTransitionStarted by remember { mutableStateOf(false) }
+    var clipShape by remember { mutableStateOf(CircleShape) }
+    var slideAnimation by remember { mutableStateOf(true) }
+    var animationStarted by remember { mutableStateOf(false) }
+    var showMessage by remember { mutableStateOf(false) }
+
+    val displayMetrics: DisplayMetrics = LocalContext.current.resources.displayMetrics
+    val screenHeightInDp = (displayMetrics.heightPixels / displayMetrics.density).dp
+
+    val width by animateDpAsState(
+        targetValue = if (isTransitionStarted) 160.dp else 30.dp,
+        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+        label = "",
+    )
+
+    val height by animateDpAsState(
+        targetValue = if (isTransitionStarted) 160.dp else 30.dp,
+        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+        label = "",
+    )
+
+    val slideY by animateDpAsState(
+        targetValue = if (slideAnimation) screenHeightInDp else 0.dp,
+        animationSpec = tween(durationMillis = 200),
+        label = "",
+    )
+
+    if (!animationStarted) {
+        LaunchedEffect(Unit) {
+            slideAnimation = true
+
+            // Delay for 2 seconds before transitioning to rectangle
+            delay(330)
+            isTransitionStarted = true
+            clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
+
+            // Delay for 1 second before reverting to circle
+            delay(1000)
+            isTransitionStarted = false
+            showMessage = true
+
+            // Delay for 0.33 seconds before sliding up
+            delay(330)
+            slideAnimation = false
+            animationStarted = true
+            showMessage = false
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Transparent)
+            .padding(16.dp),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(width, height)
+                    .offset(y = slideY)
+                    .clip(clipShape)
+                    .background(getColorForMessageType(messageType))
+                    .align(alignment = Alignment.BottomCenter),
+            ) {
+                if (showMessage) {
+                    Text(
+                        text = message,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .padding(16.dp),
+                    )
+                }
+            }
+        }
     }
 }
