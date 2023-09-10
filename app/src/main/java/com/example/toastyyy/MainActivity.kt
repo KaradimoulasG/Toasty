@@ -184,11 +184,11 @@ fun getColorForMessageType(messageType: MessageType): Color {
 @Composable
 fun CircleToRectangleAnimationFromBottom(
     messageType: MessageType = MessageType.DEFAULT,
-    message: String = "",
+    message: String = ""
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
-    var slideAnimation by remember { mutableStateOf(true) }
+    var slideAnimation by remember { mutableStateOf(false) }
     var animationStarted by remember { mutableStateOf(false) }
     var showMessage by remember { mutableStateOf(false) }
 
@@ -196,13 +196,13 @@ fun CircleToRectangleAnimationFromBottom(
     val screenHeightInDp = (displayMetrics.heightPixels / displayMetrics.density).dp
 
     val width by animateDpAsState(
-        targetValue = if (isTransitionStarted) 160.dp else 30.dp,
+        targetValue = if (isTransitionStarted) 30.dp else 160.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
     )
 
     val height by animateDpAsState(
-        targetValue = if (isTransitionStarted) 160.dp else 30.dp,
+        targetValue = if (isTransitionStarted) 30.dp else 160.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
     )
@@ -222,15 +222,17 @@ fun CircleToRectangleAnimationFromBottom(
             isTransitionStarted = true
             clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
 
-            // Delay for 1 second before reverting to circle
+            // Delay for 1 second before showing the message
             delay(1000)
-            isTransitionStarted = false
             showMessage = true
 
             // Delay for 0.33 seconds before sliding up
             delay(330)
             slideAnimation = false
             animationStarted = true
+
+            // Delay for 4 seconds before hiding the message
+            delay(4000)
             showMessage = false
         }
     }
@@ -243,28 +245,22 @@ fun CircleToRectangleAnimationFromBottom(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+                .size(width, height)
+                .offset(y = slideY)
+                .clip(clipShape)
+                .background(Color.Red)
+                .align(alignment = Alignment.BottomCenter),
         ) {
-            Box(
-                modifier = Modifier
-                    .size(width, height)
-                    .offset(y = slideY)
-                    .clip(clipShape)
-                    .background(getColorForMessageType(messageType))
-                    .align(alignment = Alignment.BottomCenter),
-            ) {
-                if (showMessage) {
-                    Text(
-                        text = message,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(16.dp),
-                    )
-                }
+            if (showMessage) {
+                Text(
+                    text = message,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(16.dp),
+                )
             }
         }
     }
