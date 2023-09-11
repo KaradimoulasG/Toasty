@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -184,56 +185,54 @@ fun getColorForMessageType(messageType: MessageType): Color {
 @Composable
 fun CircleToRectangleAnimationFromBottom(
     messageType: MessageType = MessageType.DEFAULT,
-    message: String = ""
+    message: String = "",
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
-    var slideAnimation by remember { mutableStateOf(false) }
+    var slideAnimation by remember { mutableStateOf(true) } // Set to true initially
     var animationStarted by remember { mutableStateOf(false) }
     var showMessage by remember { mutableStateOf(false) }
 
     val displayMetrics: DisplayMetrics = LocalContext.current.resources.displayMetrics
     val screenHeightInDp = (displayMetrics.heightPixels / displayMetrics.density).dp
+    val screenWidthInDp = (displayMetrics.widthPixels / displayMetrics.density).dp
 
     val width by animateDpAsState(
-        targetValue = if (isTransitionStarted) 30.dp else 160.dp,
+        targetValue = if (isTransitionStarted) screenWidthInDp else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
     )
 
     val height by animateDpAsState(
-        targetValue = if (isTransitionStarted) 30.dp else 160.dp,
+        targetValue = if (isTransitionStarted) 160.dp else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
     )
 
     val slideY by animateDpAsState(
-        targetValue = if (slideAnimation) screenHeightInDp else 0.dp,
+        targetValue = if (slideAnimation) (screenHeightInDp + 100.dp) else 0.dp,
         animationSpec = tween(durationMillis = 200),
         label = "",
     )
 
     if (!animationStarted) {
         LaunchedEffect(Unit) {
-            slideAnimation = true
+            slideAnimation = false
 
             // Delay for 2 seconds before transitioning to rectangle
             delay(330)
             isTransitionStarted = true
             clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
 
-            // Delay for 1 second before showing the message
+            // Delay for 2 seconds before transitioning back to circle
             delay(1000)
-            showMessage = true
+            isTransitionStarted = false
 
             // Delay for 0.33 seconds before sliding up
             delay(330)
-            slideAnimation = false
+            clipShape = CircleShape
+            slideAnimation = true
             animationStarted = true
-
-            // Delay for 4 seconds before hiding the message
-            delay(4000)
-            showMessage = false
         }
     }
 
@@ -248,10 +247,10 @@ fun CircleToRectangleAnimationFromBottom(
                 .size(width, height)
                 .offset(y = slideY)
                 .clip(clipShape)
-                .background(Color.Red)
+                .background(getColorForMessageType(messageType))
                 .align(alignment = Alignment.BottomCenter),
         ) {
-            if (showMessage) {
+            if(showMessage) {
                 Text(
                     text = message,
                     color = Color.White,
