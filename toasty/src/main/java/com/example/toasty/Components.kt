@@ -1,6 +1,5 @@
 package com.example.toasty
 
-import android.graphics.Paint.Align
 import android.util.DisplayMetrics
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -37,7 +36,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun TopToast(
     messageType: MessageType = MessageType.SUCCESS,
-    message: String = "Firfiriki s agapw",
+    message: String = "An unexpected error occurred. Please try again later",
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
@@ -125,7 +124,7 @@ fun TopToast(
 @Composable
 fun BottomToast(
     messageType: MessageType = MessageType.DEFAULT,
-    message: String = "",
+    message: String = "An unexpected error occurred. Please try again later",
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
@@ -216,7 +215,7 @@ fun ErrorMessage(
     height: Dp,
     clipShape: Shape,
     slideY: Dp,
-    showMessage: Boolean = false
+    showMessage: Boolean = false,
 ) {
     Box(
         modifier = Modifier
