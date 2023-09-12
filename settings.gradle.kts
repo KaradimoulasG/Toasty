@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Toastyyy"
 include(":app")
- 
+include(":toasty")
