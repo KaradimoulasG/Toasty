@@ -28,6 +28,13 @@ dependencies {
 }
 ```
 
+```Kotlin
+dependencies {
+    implementation("com.github.KaradimoulasG:Toasty:Tag")
+}
+```
+
+
 ## How to use ?
 
 
