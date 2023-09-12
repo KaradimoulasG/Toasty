@@ -42,4 +42,4 @@ TopToast(Modifier, MessageType.DEFAULT, "Your message here")
  
 See how it looks like in action
 
-<img src="https://raw.githubusercontent.com/KaradimoulasG/toasty/main/screenshots/usage.gif" width="270" height="550">
+![](https://github.com/KaradimoulasG/Toasty/blob/master/screenshots/usage.gif)
