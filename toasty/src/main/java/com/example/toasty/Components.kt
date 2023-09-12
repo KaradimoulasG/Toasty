@@ -7,7 +7,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -35,7 +34,8 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun TopToast(
-    messageType: MessageType = MessageType.SUCCESS,
+    modifier: Modifier = Modifier,
+    messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
@@ -90,32 +90,29 @@ fun TopToast(
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color.Transparent)
             .padding(16.dp),
-        contentAlignment = Alignment.Center,
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth(),
-            contentAlignment = Alignment.Center, // Center content within this Box
+            modifier = modifier
+                .size(width, height)
+                .offset(y = slideY)
+                .clip(clipShape)
+                .background(getColorForMessageType(messageType))
+                .align(alignment = Alignment.TopCenter),
+            contentAlignment = Alignment.Center,
         ) {
-            Box(
-                modifier = Modifier
-                    .size(width, height)
-                    .offset(y = slideY)
-                    .clip(clipShape)
-                    .background(getColorForMessageType(messageType)),
-                contentAlignment = Alignment.Center,
-            ) {
-                if (showMessage) {
-                    Text(
-                        text = message,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp,
-                    )
-                }
+            if (showMessage) {
+                Text(
+                    text = message,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(16.dp),
+                )
             }
         }
     }
@@ -123,6 +120,7 @@ fun TopToast(
 
 @Composable
 fun BottomToast(
+    modifier: Modifier = Modifier,
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
 ) {
@@ -184,7 +182,7 @@ fun BottomToast(
             .padding(16.dp),
     ) {
         Box(
-            modifier = Modifier
+            modifier = modifier
                 .size(width, height)
                 .offset(y = slideY)
                 .clip(clipShape)
