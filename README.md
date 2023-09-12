@@ -22,10 +22,10 @@ repositories {
 ```
 
 Then, add library at `app/build.gradle` with following code
-```groove
-    dependencies {
-	        implementation 'com.github.KaradimoulasG:toasty:Tag'
-    }
+```groovy
+dependencies {
+	implementation 'com.github.KaradimoulasG:toasty:Tag'
+}
 ```
 
 ## How to use ?
@@ -33,7 +33,13 @@ Then, add library at `app/build.gradle` with following code
 
 ```kotlin
 
-        // Inside your application theme
-        TopToast(Modifier, MessageType.DEFAULT, "Your message here")
+// Inside your application theme
+TopToast(Modifier, MessageType.DEFAULT, "Your message here")
 
 ```
+
+## Preview
+ 
+See how it looks like in action
+
+<img src="https://raw.githubusercontent.com/KaradimoulasG/toasty/main/screenshots/usage.gif" width="270" height="550">
