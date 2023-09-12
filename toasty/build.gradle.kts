@@ -1,7 +1,11 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
+
+group = "com.github.KaradimoulasG"
+version = "0.0.1"
 
 android {
     namespace = "com.example.toasty"
@@ -61,4 +65,18 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "com.github.KaradimoulasG"
+            artifactId = "toasty"
+            version = "0.0.1"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
