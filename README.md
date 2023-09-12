@@ -24,7 +24,7 @@ repositories {
 Then, add library at `app/build.gradle` with following code
 ```groovy
 dependencies {
-	implementation 'com.github.KaradimoulasG:toasty:Tag'
+    implementation 'com.github.KaradimoulasG:toasty:Tag'
 }
 ```
 
