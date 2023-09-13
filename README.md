@@ -1,6 +1,6 @@
 # Toasty
 
-[![](https://jitpack.io/v/KaradimoulasG/Toasty.svg)](https://jitpack.io/#KaradimoulasG/Toasty) ![GitHub issues](https://img.shields.io/github/issues/KaradimoulasG/Toasty) ![GitHub forks](https://img.shields.io/github/forks/KaradimoulasG/Toasty) [![GitHub stars](https://img.shields.io/github/stars/KaradimoulasG/Toasty)](https://github.com/hbb20/CountryCodePickerProject/stargazers) [![GitHub license](https://img.shields.io/github/license/KaradimoulasG/Toasty)]
+[![](https://jitpack.io/v/KaradimoulasG/Toasty.svg)](https://jitpack.io/#KaradimoulasG/Toasty) ![GitHub issues](https://img.shields.io/github/issues/KaradimoulasG/Toasty) ![GitHub forks](https://img.shields.io/github/forks/KaradimoulasG/Toasty) [![GitHub stars](https://img.shields.io/github/stars/KaradimoulasG/Toasty)](https://github.com/hbb20/CountryCodePickerProject/stargazers) ![GitHub license](https://img.shields.io/github/license/KaradimoulasG/Toasty)
 
 A light and simple Android library that creates a toast message.
 Created using Jetpack Compose for its UI toolkit. Toasty provides two different sliding toasts with animation from the top and bottom of the screen so you no longer have to create them from scratch while also giving you some flexibility on how to customize them.
