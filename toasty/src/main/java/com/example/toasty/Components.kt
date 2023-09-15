@@ -37,6 +37,7 @@ fun TopToast(
     modifier: Modifier = Modifier,
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
+    finishedAction: () -> Unit = {},
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
@@ -85,6 +86,7 @@ fun TopToast(
             clipShape = CircleShape
             slideDownAnimation = true
             animationStarted = true
+            finishedAction()
         }
     }
 
@@ -123,6 +125,7 @@ fun BottomToast(
     modifier: Modifier = Modifier,
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
+    finishedAction: () -> Unit = {},
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
@@ -172,6 +175,7 @@ fun BottomToast(
             clipShape = CircleShape
             slideAnimation = true
             animationStarted = true
+            finishedAction()
         }
     }
 
