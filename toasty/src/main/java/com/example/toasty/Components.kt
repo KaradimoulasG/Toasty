@@ -37,6 +37,7 @@ fun TopToast(
     modifier: Modifier = Modifier,
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
+    height: Dp = 160.dp,
     finishedAction: () -> Unit = {},
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
@@ -55,7 +56,7 @@ fun TopToast(
     )
 
     val height by animateDpAsState(
-        targetValue = if (isTransitionStarted) 160.dp else 30.dp,
+        targetValue = if (isTransitionStarted) height else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
     )
@@ -125,6 +126,7 @@ fun BottomToast(
     modifier: Modifier = Modifier,
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
+    height: Dp = 160.dp,
     finishedAction: () -> Unit = {},
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
@@ -144,7 +146,7 @@ fun BottomToast(
     )
 
     val height by animateDpAsState(
-        targetValue = if (isTransitionStarted) 160.dp else 30.dp,
+        targetValue = if (isTransitionStarted) height else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
     )
