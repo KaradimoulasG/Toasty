@@ -38,25 +38,26 @@ fun TopToast(
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
     height: Dp = 160.dp,
-    finishedAction: () -> Unit = {},
+    onDismissCallback: @Composable () -> Unit = {},
 ) {
-    var isTransitionStarted by remember { mutableStateOf(false) }
+    var hasTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
     var slideDownAnimation by remember { mutableStateOf(true) }
     var animationStarted by remember { mutableStateOf(false) }
     var showMessage by remember { mutableStateOf(false) }
+    var dismissCallback by remember { mutableStateOf(false) }
 
     val displayMetrics: DisplayMetrics = LocalContext.current.resources.displayMetrics
     val screenWidthInDp = (displayMetrics.widthPixels / displayMetrics.density).dp
 
     val width by animateDpAsState(
-        targetValue = if (isTransitionStarted) screenWidthInDp else 30.dp,
+        targetValue = if (hasTransitionStarted) screenWidthInDp else 30.dp,
         animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing),
         label = "",
     )
 
-    val height by animateDpAsState(
-        targetValue = if (isTransitionStarted) height else 30.dp,
+    val boxHeight by animateDpAsState(
+        targetValue = if (hasTransitionStarted) height else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
     )
@@ -71,15 +72,15 @@ fun TopToast(
         LaunchedEffect(Unit) {
             slideDownAnimation = false
 
-            // Delay for 2 seconds before transitioning to rectangle
+            // Delay for 0.33 seconds before transitioning to rectangle
             delay(330)
-            isTransitionStarted = true
+            hasTransitionStarted = true
             clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
             showMessage = true
 
-            // Delay for 1 second before reverting to circle
+            // Delay for 2 seconds before reverting to circle
             delay(2000)
-            isTransitionStarted = false
+            hasTransitionStarted = false
             showMessage = false
 
             // Delay for 0.33 seconds before sliding down
@@ -87,7 +88,7 @@ fun TopToast(
             clipShape = CircleShape
             slideDownAnimation = true
             animationStarted = true
-            finishedAction()
+            dismissCallback = true
         }
     }
 
@@ -99,7 +100,7 @@ fun TopToast(
     ) {
         Box(
             modifier = modifier
-                .size(width, height)
+                .size(width, boxHeight)
                 .offset(y = slideY)
                 .clip(clipShape)
                 .background(getColorForMessageType(messageType))
@@ -117,6 +118,8 @@ fun TopToast(
                         .padding(16.dp),
                 )
             }
+
+            if (dismissCallback) onDismissCallback()
         }
     }
 }
@@ -127,13 +130,14 @@ fun BottomToast(
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
     height: Dp = 160.dp,
-    finishedAction: () -> Unit = {},
+    onDismissCallback: @Composable () -> Unit = {},
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
-    var slideAnimation by remember { mutableStateOf(true) } // Set to true initially
+    var slideAnimation by remember { mutableStateOf(true) }
     var animationStarted by remember { mutableStateOf(false) }
     var showMessage by remember { mutableStateOf(false) }
+    var dismissCallback by remember { mutableStateOf(false) }
 
     val displayMetrics: DisplayMetrics = LocalContext.current.resources.displayMetrics
     val screenHeightInDp = (displayMetrics.heightPixels / displayMetrics.density).dp
@@ -145,7 +149,7 @@ fun BottomToast(
         label = "",
     )
 
-    val height by animateDpAsState(
+    val boxHeight by animateDpAsState(
         targetValue = if (isTransitionStarted) height else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
@@ -161,7 +165,7 @@ fun BottomToast(
         LaunchedEffect(Unit) {
             slideAnimation = false
 
-            // Delay for 2 seconds before transitioning to rectangle
+            // Delay for 0.33 seconds before transitioning to rectangle
             delay(330)
             isTransitionStarted = true
             clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
@@ -177,7 +181,7 @@ fun BottomToast(
             clipShape = CircleShape
             slideAnimation = true
             animationStarted = true
-            finishedAction()
+            dismissCallback = true
         }
     }
 
@@ -189,7 +193,7 @@ fun BottomToast(
     ) {
         Box(
             modifier = modifier
-                .size(width, height)
+                .size(width, boxHeight)
                 .offset(y = slideY)
                 .clip(clipShape)
                 .background(getColorForMessageType(messageType))
@@ -207,6 +211,8 @@ fun BottomToast(
                         .padding(16.dp),
                 )
             }
+
+            if (dismissCallback) onDismissCallback()
         }
     }
 }

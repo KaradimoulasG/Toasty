@@ -22,8 +22,8 @@ fun getColorForMessageType(messageType: MessageType): Color {
         MessageType.ERROR -> Color.Red
         MessageType.DYNAMIC -> {
             when (isSystemInDarkTheme()) {
-                true -> dynamicDarkColorScheme(LocalContext.current).primaryContainer
-                false -> dynamicLightColorScheme(LocalContext.current).primaryContainer
+                true -> dynamicDarkColorScheme(LocalContext.current).background
+                false -> dynamicLightColorScheme(LocalContext.current).background
             }
         }
         MessageType.DEFAULT -> MaterialTheme.colorScheme.primary
