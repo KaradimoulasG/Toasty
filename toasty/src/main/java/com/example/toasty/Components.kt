@@ -38,6 +38,7 @@ fun TopToast(
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
     height: Dp = 160.dp,
+    width: Dp? = null,
     onDismissCallback: @Composable () -> Unit = {},
 ) {
     var hasTransitionStarted by remember { mutableStateOf(false) }
@@ -48,9 +49,9 @@ fun TopToast(
     var dismissCallback by remember { mutableStateOf(false) }
 
     val displayMetrics: DisplayMetrics = LocalContext.current.resources.displayMetrics
-    val screenWidthInDp = (displayMetrics.widthPixels / displayMetrics.density).dp
+    val screenWidthInDp = width ?: (displayMetrics.widthPixels / displayMetrics.density).dp
 
-    val width by animateDpAsState(
+    val boxWidth by animateDpAsState(
         targetValue = if (hasTransitionStarted) screenWidthInDp else 30.dp,
         animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing),
         label = "",
@@ -83,7 +84,7 @@ fun TopToast(
             hasTransitionStarted = false
             showMessage = false
 
-            // Delay for 0.33 seconds before sliding down
+            // Delay for 0.33 seconds before sliding up
             delay(330)
             clipShape = CircleShape
             slideDownAnimation = true
@@ -100,7 +101,7 @@ fun TopToast(
     ) {
         Box(
             modifier = modifier
-                .size(width, boxHeight)
+                .size(boxWidth, boxHeight)
                 .offset(y = slideY)
                 .clip(clipShape)
                 .background(getColorForMessageType(messageType))
@@ -130,6 +131,7 @@ fun BottomToast(
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
     height: Dp = 160.dp,
+    width: Dp? = null,
     onDismissCallback: @Composable () -> Unit = {},
 ) {
     var isTransitionStarted by remember { mutableStateOf(false) }
@@ -141,9 +143,9 @@ fun BottomToast(
 
     val displayMetrics: DisplayMetrics = LocalContext.current.resources.displayMetrics
     val screenHeightInDp = (displayMetrics.heightPixels / displayMetrics.density).dp
-    val screenWidthInDp = (displayMetrics.widthPixels / displayMetrics.density).dp
+    val screenWidthInDp = width ?: (displayMetrics.widthPixels / displayMetrics.density).dp
 
-    val width by animateDpAsState(
+    val boxWidth by animateDpAsState(
         targetValue = if (isTransitionStarted) screenWidthInDp else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
         label = "",
@@ -156,7 +158,7 @@ fun BottomToast(
     )
 
     val slideY by animateDpAsState(
-        targetValue = if (slideAnimation) (screenHeightInDp + 100.dp) else 0.dp,
+        targetValue = if (slideAnimation) 100.dp else 0.dp,
         animationSpec = tween(durationMillis = 200),
         label = "",
     )
@@ -176,7 +178,7 @@ fun BottomToast(
             isTransitionStarted = false
             showMessage = false
 
-            // Delay for 0.33 seconds before sliding up
+            // Delay for 0.33 seconds before sliding down
             delay(330)
             clipShape = CircleShape
             slideAnimation = true
@@ -193,7 +195,7 @@ fun BottomToast(
     ) {
         Box(
             modifier = modifier
-                .size(width, boxHeight)
+                .size(boxWidth, boxHeight)
                 .offset(y = slideY)
                 .clip(clipShape)
                 .background(getColorForMessageType(messageType))
