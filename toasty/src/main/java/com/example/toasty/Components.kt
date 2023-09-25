@@ -54,19 +54,19 @@ fun TopToast(
     val boxWidth by animateDpAsState(
         targetValue = if (hasTransitionStarted) screenWidthInDp else 30.dp,
         animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing),
-        label = "",
+        label = "Box width",
     )
 
     val boxHeight by animateDpAsState(
         targetValue = if (hasTransitionStarted) height else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
-        label = "",
+        label = "Box height",
     )
 
     val slideY by animateDpAsState(
         targetValue = if (slideDownAnimation) (-100).dp else 0.dp,
         animationSpec = tween(durationMillis = 200),
-        label = "",
+        label = "Slide parameter in DP",
     )
 
     if (!animationStarted) {
@@ -148,19 +148,19 @@ fun BottomToast(
     val boxWidth by animateDpAsState(
         targetValue = if (isTransitionStarted) screenWidthInDp else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
-        label = "",
+        label = "Box width",
     )
 
     val boxHeight by animateDpAsState(
         targetValue = if (isTransitionStarted) height else 30.dp,
         animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
-        label = "",
+        label = "Box Height",
     )
 
     val slideY by animateDpAsState(
         targetValue = if (slideAnimation) 100.dp else 0.dp,
         animationSpec = tween(durationMillis = 200),
-        label = "",
+        label = "Slide parameter in DP",
     )
 
     if (!animationStarted) {
