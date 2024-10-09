@@ -41,7 +41,16 @@ dependencies {
 ```kotlin
 
 // Inside your application theme
-TopToast(Modifier, MessageType.DEFAULT, "Your message here")
+TopToast(
+    modifier: Modifier = Modifier,
+    messageType: MessageType = MessageType.DEFAULT,
+    message: String = "An unexpected error occurred. Please try again later",
+    height: Dp = 160.dp,
+    width: Dp? = null,
+    onDismissCallback: @Composable () -> Unit = {}
+)
+
+// Similarly with the BottomToast(...) component
 
 ```
 
