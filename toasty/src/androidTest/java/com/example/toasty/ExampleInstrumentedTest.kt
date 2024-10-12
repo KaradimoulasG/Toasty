@@ -4,6 +4,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.example.toasty.components.SlidingToast
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
@@ -30,7 +31,7 @@ class ExampleInstrumentedTest {
     @Test
     fun circleToRectangleAnimationTest() {
         composeTestRule.setContent {
-            TopToast(message = "text")
+            SlidingToast(message = "text")
         }
 
         runBlocking {

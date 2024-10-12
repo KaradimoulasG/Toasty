@@ -1,5 +1,7 @@
 package com.example.toasty
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -15,6 +17,7 @@ enum class MessageType {
     DYNAMIC,
 }
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun getColorForMessageType(messageType: MessageType): Color {
     return when (messageType) {
