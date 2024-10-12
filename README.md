@@ -32,16 +32,19 @@ Step 2. Add the dependency at `app/build.gradle` with following code
 ```kotlin
 
 // Inside your application theme
-TopToast(
+fun SlidingToast(
     modifier: Modifier = Modifier,
     messageType: MessageType = MessageType.DEFAULT,
     message: String = "An unexpected error occurred. Please try again later",
+    duration: Long = 2000,
     height: Dp = 160.dp,
     width: Dp? = null,
-    onDismissCallback: @Composable () -> Unit = {}
+    textColor: Color = Color.White,
+    fontSize: TextUnit = 16.sp,
+    cornerRadius: Dp = 12.dp,
+    fromTop: Boolean = true,
+    onDismissCallback: @Composable () -> Unit = {},
 )
-
-// Similarly with the BottomToast(...) component
 
 ```
 
