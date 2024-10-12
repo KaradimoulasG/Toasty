@@ -6,32 +6,23 @@ A light and simple Android library that creates a toast message.
 Created using Jetpack Compose for its UI toolkit. Toasty provides two different sliding toasts with animation from the top and bottom of the screen so you no longer have to create them from scratch while also giving you some flexibility on how to customize them.
 
 ## How to add in your project
-In the `build.gradle` add maven central repository:
+Step 1. In your root `build.gradle` at the end of repositories:
 ```
-repositories {
-    maven { url 'https://jitpack.io' }
-}
-```
-
-If you are using the Kotlin DSL:
-
-```
-repositories {
-    maven { url = uri("https://www.jitpack.io" ) }
-}
+	dependencyResolutionManagement {
+		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+		repositories {
+			mavenCentral()
+			maven { url 'https://jitpack.io' }
+		}
+	}
 ```
 
-Then, add library at `app/build.gradle` with following code
-```groovy
-dependencies {
-    implementation 'com.github.KaradimoulasG:toasty:Tag'
-}
-```
+Step 2. Add the dependency at `app/build.gradle` with following code
 
-```Kotlin
-dependencies {
-    implementation("com.github.KaradimoulasG:Toasty:Tag")
-}
+```
+	dependencies {
+	        implementation 'com.github.KaradimoulasG:Toasty:0.0.4'
+	}
 ```
 
 
@@ -41,7 +32,16 @@ dependencies {
 ```kotlin
 
 // Inside your application theme
-TopToast(Modifier, MessageType.DEFAULT, "Your message here")
+TopToast(
+    modifier: Modifier = Modifier,
+    messageType: MessageType = MessageType.DEFAULT,
+    message: String = "An unexpected error occurred. Please try again later",
+    height: Dp = 160.dp,
+    width: Dp? = null,
+    onDismissCallback: @Composable () -> Unit = {}
+)
+
+// Similarly with the BottomToast(...) component
 
 ```
 
