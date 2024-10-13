@@ -21,7 +21,7 @@ Step 2. Add the dependency at `app/build.gradle` with following code
 
 ```
 	dependencies {
-	        implementation 'com.github.KaradimoulasG:Toasty:0.0.4'
+	        implementation 'com.github.KaradimoulasG:Toasty:1.0.0'
 	}
 ```
 
